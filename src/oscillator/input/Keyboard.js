@@ -38,19 +38,23 @@ export default class Keyboard {
   }
 
   registerKeyHandler () {
-    window.addEventListener('keydown', event => {
-      if (!this.registeredInputs[event.key] && this.keyActionMap[event.key] !== undefined) {
-        document.getElementById(event.key).classList.add('keyActive')
-        this.keyActionMap[event.key].connectAndStart()
-        this.registeredInputs[event.key] = true
-      }
-    })
-    window.addEventListener('keyup', event => {
-      if (this.registeredInputs[event.key] && this.keyActionMap[event.key] !== undefined) {
-        document.getElementById(event.key).classList.remove('keyActive')
-        this.keyActionMap[event.key].stopAndDisconnect()
-        this.registeredInputs[event.key] = false
-      }
-    })
+    window.addEventListener('keydown', event => this.setDownEvent(event.key))
+    window.addEventListener('keyup', event => this.setUpEvent(event.key))
+  }
+
+  setDownEvent (key) {
+    if (!this.registeredInputs[key] && this.keyActionMap[key] !== undefined) {
+      document.getElementById(key).classList.add('keyActive')
+      this.keyActionMap[key].connectAndStart()
+      this.registeredInputs[key] = true
+    }
+  }
+
+  setUpEvent (key) {
+    if (this.registeredInputs[key] && this.keyActionMap[key] !== undefined) {
+      document.getElementById(key).classList.remove('keyActive')
+      this.keyActionMap[key].stopAndDisconnect()
+      this.registeredInputs[key] = false
+    }
   }
 }

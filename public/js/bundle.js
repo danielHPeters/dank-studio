@@ -81,8 +81,8 @@ var _KeyPad2 = _interopRequireDefault(_KeyPad);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function init() {
-  var keyPad = new _KeyPad2.default('keyPad');
   var keyBoard = new _Keyboard2.default();
+  var keyPad = new _KeyPad2.default('keyPad', keyBoard);
   keyBoard.registerKey('a', 261.63);
   keyBoard.registerKey('s', 293.66);
   keyBoard.registerKey('d', 329.63);
@@ -91,9 +91,7 @@ function init() {
   keyBoard.registerKey('h', 440);
   keyBoard.registerKey('j', 493.88);
   keyBoard.registerKey('k', 523.25);
-  Object.keys(keyBoard.keyActionMap).forEach(function (key) {
-    keyPad.addKey(key, keyBoard.keyActionMap[key].frequency);
-  });
+  keyPad.addAllKeys();
 }
 
 document.addEventListener('DOMContentLoaded', init());
@@ -168,19 +166,29 @@ var Keyboard = function () {
       var _this = this;
 
       window.addEventListener('keydown', function (event) {
-        if (!_this.registeredInputs[event.key] && _this.keyActionMap[event.key] !== undefined) {
-          document.getElementById(event.key).classList.add('keyActive');
-          _this.keyActionMap[event.key].connectAndStart();
-          _this.registeredInputs[event.key] = true;
-        }
+        return _this.setDownEvent(event.key);
       });
       window.addEventListener('keyup', function (event) {
-        if (_this.registeredInputs[event.key] && _this.keyActionMap[event.key] !== undefined) {
-          document.getElementById(event.key).classList.remove('keyActive');
-          _this.keyActionMap[event.key].stopAndDisconnect();
-          _this.registeredInputs[event.key] = false;
-        }
+        return _this.setUpEvent(event.key);
       });
+    }
+  }, {
+    key: 'setDownEvent',
+    value: function setDownEvent(key) {
+      if (!this.registeredInputs[key] && this.keyActionMap[key] !== undefined) {
+        document.getElementById(key).classList.add('keyActive');
+        this.keyActionMap[key].connectAndStart();
+        this.registeredInputs[key] = true;
+      }
+    }
+  }, {
+    key: 'setUpEvent',
+    value: function setUpEvent(key) {
+      if (this.registeredInputs[key] && this.keyActionMap[key] !== undefined) {
+        document.getElementById(key).classList.remove('keyActive');
+        this.keyActionMap[key].stopAndDisconnect();
+        this.registeredInputs[key] = false;
+      }
     }
   }]);
 
@@ -259,16 +267,19 @@ var _createClass = function () { function defineProperties(target, props) { for 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var KeyPad = function () {
-  function KeyPad(id) {
+  function KeyPad(id, keyBoard) {
     _classCallCheck(this, KeyPad);
 
     this.id = id;
     this.element = document.getElementById(this.id);
+    this.keyBoard = keyBoard;
   }
 
   _createClass(KeyPad, [{
     key: 'addKey',
     value: function addKey(id, text) {
+      var _this = this;
+
       var newKey = document.createElement('li');
       var span = document.createElement('span');
       var textNode = document.createTextNode(id);
@@ -281,7 +292,28 @@ var KeyPad = function () {
       newKey.appendChild(span);
       newKey.classList.add('key');
       newKey.setAttribute('id', id);
+      newKey.addEventListener('mouseenter', function (event) {
+        return _this.keyBoard.setDownEvent(id);
+      });
+      newKey.addEventListener('touchenter', function (event) {
+        return _this.keyBoard.setDownEvent(id);
+      });
+      newKey.addEventListener('mouseleave', function (event) {
+        return _this.keyBoard.setUpEvent(id);
+      });
+      newKey.addEventListener('touchleave', function (event) {
+        return _this.keyBoard.setUpEvent(id);
+      });
       this.element.appendChild(newKey);
+    }
+  }, {
+    key: 'addAllKeys',
+    value: function addAllKeys() {
+      var _this2 = this;
+
+      Object.keys(this.keyBoard.keyActionMap).forEach(function (key) {
+        _this2.addKey(key, _this2.keyBoard.keyActionMap[key].frequency);
+      });
     }
   }]);
 

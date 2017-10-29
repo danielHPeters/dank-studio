@@ -1,7 +1,8 @@
 export default class KeyPad {
-  constructor (id) {
+  constructor (id, keyBoard) {
     this.id = id
     this.element = document.getElementById(this.id)
+    this.keyBoard = keyBoard
   }
 
   addKey (id, text) {
@@ -17,6 +18,16 @@ export default class KeyPad {
     newKey.appendChild(span)
     newKey.classList.add('key')
     newKey.setAttribute('id', id)
+    newKey.addEventListener('mouseenter', event => this.keyBoard.setDownEvent(id))
+    newKey.addEventListener('touchstart', event => this.keyBoard.setDownEvent(id))
+    newKey.addEventListener('mouseleave', event => this.keyBoard.setUpEvent(id))
+    newKey.addEventListener('touchend', event => this.keyBoard.setUpEvent(id))
     this.element.appendChild(newKey)
+  }
+
+  addAllKeys () {
+    Object.keys(this.keyBoard.keyActionMap).forEach(key => {
+      this.addKey(key, this.keyBoard.keyActionMap[key].frequency)
+    })
   }
 }
