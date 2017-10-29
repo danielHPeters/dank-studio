@@ -74,9 +74,14 @@ var _Keyboard = __webpack_require__(1);
 
 var _Keyboard2 = _interopRequireDefault(_Keyboard);
 
+var _KeyPad = __webpack_require__(3);
+
+var _KeyPad2 = _interopRequireDefault(_KeyPad);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function init() {
+  var keyPad = new _KeyPad2.default('keyPad');
   var keyBoard = new _Keyboard2.default();
   keyBoard.registerKey('a', 261.63);
   keyBoard.registerKey('s', 293.66);
@@ -85,6 +90,10 @@ function init() {
   keyBoard.registerKey('g', 392.00);
   keyBoard.registerKey('h', 440);
   keyBoard.registerKey('j', 493.88);
+  keyBoard.registerKey('k', 523.25);
+  Object.keys(keyBoard.keyActionMap).forEach(function (key) {
+    keyPad.addKey(key, keyBoard.keyActionMap[key].frequency);
+  });
 }
 
 document.addEventListener('DOMContentLoaded', init());
@@ -126,20 +135,32 @@ var Keyboard = function () {
 
     // this.gainNode.gain.value = 1
     // this.gainNode.connect(this.context.destination)
+    this.createCompressor();
     this.registerKeyHandler();
   }
 
-  /**
-   * Register a keyboard key with a sound
-   * @param {string} key
-   * @param {number} frequency
-   */
-
-
   _createClass(Keyboard, [{
+    key: 'createCompressor',
+    value: function createCompressor() {
+      this.compressor = this.context.createDynamicsCompressor();
+      this.compressor.threshold.value = -50;
+      this.compressor.knee.value = 40;
+      this.compressor.ratio.value = 12;
+      this.compressor.attack.value = 0;
+      this.compressor.release.value = 0.25;
+      this.compressor.connect(this.context.destination);
+    }
+
+    /**
+     * Register a keyboard key with a sound
+     * @param {string} key
+     * @param {number} frequency
+     */
+
+  }, {
     key: 'registerKey',
     value: function registerKey(key, frequency) {
-      this.keyActionMap[key] = new _Sound2.default(this.context, frequency);
+      this.keyActionMap[key] = new _Sound2.default(this.context, this.compressor, frequency);
     }
   }, {
     key: 'registerKeyHandler',
@@ -148,12 +169,14 @@ var Keyboard = function () {
 
       window.addEventListener('keydown', function (event) {
         if (!_this.registeredInputs[event.key] && _this.keyActionMap[event.key] !== undefined) {
+          document.getElementById(event.key).classList.add('keyActive');
           _this.keyActionMap[event.key].connectAndStart();
           _this.registeredInputs[event.key] = true;
         }
       });
       window.addEventListener('keyup', function (event) {
         if (_this.registeredInputs[event.key] && _this.keyActionMap[event.key] !== undefined) {
+          document.getElementById(event.key).classList.remove('keyActive');
           _this.keyActionMap[event.key].stopAndDisconnect();
           _this.registeredInputs[event.key] = false;
         }
@@ -182,13 +205,14 @@ var _createClass = function () { function defineProperties(target, props) { for 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var Sound = function () {
-  function Sound(context) {
-    var frequency = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 200;
-    var type = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'sine';
+  function Sound(context, compressor) {
+    var frequency = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 200;
+    var type = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 'sine';
 
     _classCallCheck(this, Sound);
 
     this.context = context;
+    this.compressor = compressor;
     this.frequency = frequency;
     this.type = type;
   }
@@ -198,19 +222,19 @@ var Sound = function () {
     value: function connectAndStart() {
       this.oscillator = this.context.createOscillator();
       this.gainNode = this.context.createGain();
-      this.gainNode.connect(this.context.destination);
+      this.gainNode.connect(this.compressor);
       this.oscillator.type = this.type;
       this.oscillator.frequency.value = this.frequency;
       this.oscillator.connect(this.gainNode);
       this.gainNode.gain.setValueAtTime(0, this.context.currentTime);
-      this.gainNode.gain.linearRampToValueAtTime(1, this.context.currentTime + 0.1);
-      this.oscillator.start(0);
+      this.gainNode.gain.linearRampToValueAtTime(0.4, this.context.currentTime + 0.1);
+      this.oscillator.start(0.5);
     }
   }, {
     key: 'stopAndDisconnect',
     value: function stopAndDisconnect() {
-      this.gainNode.gain.linearRampToValueAtTime(0, this.context.currentTime + 0.6);
-      this.oscillator.stop(this.context.currentTime + 1.6);
+      this.gainNode.gain.linearRampToValueAtTime(0, this.context.currentTime + 0.8);
+      this.oscillator.stop(this.context.currentTime + 2.8);
     }
   }]);
 
@@ -218,6 +242,53 @@ var Sound = function () {
 }();
 
 exports.default = Sound;
+
+/***/ }),
+/* 3 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var KeyPad = function () {
+  function KeyPad(id) {
+    _classCallCheck(this, KeyPad);
+
+    this.id = id;
+    this.element = document.getElementById(this.id);
+  }
+
+  _createClass(KeyPad, [{
+    key: 'addKey',
+    value: function addKey(id, text) {
+      var newKey = document.createElement('li');
+      var span = document.createElement('span');
+      var textNode = document.createTextNode(id);
+      var textNode2 = document.createTextNode(text);
+      var lineBreak = document.createElement('br');
+      span.appendChild(textNode);
+      span.appendChild(lineBreak);
+      span.appendChild(textNode2);
+      span.classList.add('keyDescription');
+      newKey.appendChild(span);
+      newKey.classList.add('key');
+      newKey.setAttribute('id', id);
+      this.element.appendChild(newKey);
+    }
+  }]);
+
+  return KeyPad;
+}();
+
+exports.default = KeyPad;
 
 /***/ })
 /******/ ]);
