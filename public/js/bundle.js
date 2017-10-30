@@ -295,13 +295,13 @@ var KeyPad = function () {
       newKey.addEventListener('mouseenter', function (event) {
         return _this.keyBoard.setDownEvent(id);
       });
-      newKey.addEventListener('touchenter', function (event) {
+      newKey.addEventListener('touchstart', function (event) {
         return _this.keyBoard.setDownEvent(id);
       });
       newKey.addEventListener('mouseleave', function (event) {
         return _this.keyBoard.setUpEvent(id);
       });
-      newKey.addEventListener('touchleave', function (event) {
+      newKey.addEventListener('touchend', function (event) {
         return _this.keyBoard.setUpEvent(id);
       });
       this.element.appendChild(newKey);
