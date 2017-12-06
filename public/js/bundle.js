@@ -153,12 +153,15 @@ var Keyboard = function () {
      * Register a keyboard key with a sound
      * @param {string} key
      * @param {number} frequency
+     * @param {string} type
      */
 
   }, {
     key: 'registerKey',
     value: function registerKey(key, frequency) {
-      this.keyActionMap[key] = new _Sound2.default(this.context, this.compressor, frequency);
+      var type = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'sawtooth';
+
+      this.keyActionMap[key] = new _Sound2.default(this.context, this.compressor, frequency, type);
     }
   }, {
     key: 'registerKeyHandler',
@@ -190,6 +193,19 @@ var Keyboard = function () {
         this.registeredInputs[key] = false;
       }
     }
+
+    /**
+     * Sets type of sounds
+     * @param {string} type sound type (eg. sine, square)
+     */
+
+  }, {
+    key: 'setSoundsType',
+    value: function setSoundsType(type) {
+      Object.keys(this.keyActionMap).forEach(function (sound) {
+        sound.type = type;
+      });
+    }
   }]);
 
   return Keyboard;
@@ -213,10 +229,7 @@ var _createClass = function () { function defineProperties(target, props) { for 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var Sound = function () {
-  function Sound(context, compressor) {
-    var frequency = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 200;
-    var type = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 'sine';
-
+  function Sound(context, compressor, frequency, type) {
     _classCallCheck(this, Sound);
 
     this.context = context;
@@ -226,7 +239,7 @@ var Sound = function () {
   }
 
   _createClass(Sound, [{
-    key: 'connectAndStart',
+    key: "connectAndStart",
     value: function connectAndStart() {
       this.oscillator = this.context.createOscillator();
       this.gainNode = this.context.createGain();
@@ -239,7 +252,7 @@ var Sound = function () {
       this.oscillator.start(0.5);
     }
   }, {
-    key: 'stopAndDisconnect',
+    key: "stopAndDisconnect",
     value: function stopAndDisconnect() {
       this.gainNode.gain.linearRampToValueAtTime(0, this.context.currentTime + 0.8);
       this.oscillator.stop(this.context.currentTime + 2.8);
