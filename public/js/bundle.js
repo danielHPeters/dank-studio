@@ -215,7 +215,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 var Sound = function () {
   function Sound(context, compressor) {
     var frequency = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 200;
-    var type = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 'sine';
+    var type = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 'square';
 
     _classCallCheck(this, Sound);
 
