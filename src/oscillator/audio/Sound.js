@@ -1,5 +1,5 @@
 export default class Sound {
-  constructor (context, compressor, frequency = 200, type = 'square') {
+  constructor (context, compressor, frequency, type) {
     this.context = context
     this.compressor = compressor
     this.frequency = frequency

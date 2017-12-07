@@ -32,9 +32,10 @@ export default class Keyboard {
    * Register a keyboard key with a sound
    * @param {string} key
    * @param {number} frequency
+   * @param {string} type
    */
-  registerKey (key, frequency) {
-    this.keyActionMap[key] = new Sound(this.context, this.compressor, frequency)
+  registerKey (key, frequency, type = 'sawtooth') {
+    this.keyActionMap[key] = new Sound(this.context, this.compressor, frequency, type)
   }
 
   registerKeyHandler () {
@@ -56,5 +57,13 @@ export default class Keyboard {
       this.keyActionMap[key].stopAndDisconnect()
       this.registeredInputs[key] = false
     }
+  }
+
+  /**
+   * Sets type of sounds
+   * @param {string} type sound type (eg. sine, square)
+   */
+  setSoundsType (type) {
+    Object.keys(this.keyActionMap).forEach(sound => { sound.type = type })
   }
 }
