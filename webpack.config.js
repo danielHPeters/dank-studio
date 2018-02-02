@@ -1,16 +1,22 @@
+const path = require('path')
+
 module.exports = {
-  entry: './src/oscillator/app.js',
-  output: {
-    filename: './public/js/bundle.js'
+  entry: {
+    studio: './src/studio/app.ts'
   },
   devtool: 'source-map',
+  output: {
+    path: path.join(__dirname, './public/js'),
+    filename: '[name].js'
+  },
+  resolve: {
+    // Add '.ts' and '.tsx' as a resolvable extension.
+    extensions: ['.webpack.js', '.web.js', '.ts', '.tsx', '.js']
+  },
   module: {
-    rules: [
-      {
-        test: /\.js$/,
-        exclude: /node_modules/,
-        loader: 'babel-loader'
-      }
+    loaders: [
+      // all files with a '.ts' or '.tsx' extension will be handled by 'ts-loader'
+      { test: /\.tsx?$/, loader: 'ts-loader' }
     ]
   }
 }

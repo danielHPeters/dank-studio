@@ -1,16 +1,39 @@
+/**
+ * Keypad Widget class.
+ *
+ * @author Daniel Peters
+ * @version 1.0
+ */
+import Keyboard from '../input/Keyboard'
+
 export default class KeyPad {
-  constructor (id, keyBoard) {
+  private id: string
+  private element: HTMLElement
+  private keyBoard: Keyboard
+  /**
+   * Constructor.
+   *
+   * @param {string} id
+   * @param {Keyboard} keyBoard
+   */
+  constructor (id: string, keyBoard: Keyboard) {
     this.id = id
     this.element = document.getElementById(this.id)
     this.keyBoard = keyBoard
   }
 
-  addKey (id, text) {
-    let newKey = document.createElement('li')
-    let span = document.createElement('span')
-    let textNode = document.createTextNode(id)
-    let textNode2 = document.createTextNode(text)
-    let lineBreak = document.createElement('br')
+  /**
+   * Add a key element.
+   *
+   * @param {string} id
+   * @param {string} text
+   */
+  private addKey (id: string, text: string): void {
+    const newKey = document.createElement('li')
+    const span = document.createElement('span')
+    const textNode = document.createTextNode(id)
+    const textNode2 = document.createTextNode(text)
+    const lineBreak = document.createElement('br')
     span.appendChild(textNode)
     span.appendChild(lineBreak)
     span.appendChild(textNode2)
@@ -25,7 +48,10 @@ export default class KeyPad {
     this.element.appendChild(newKey)
   }
 
-  addAllKeys () {
+  /**
+   * Add all keys registered on the keyboard to the keypad.
+   */
+  public addAllKeys (): void {
     Object.keys(this.keyBoard.keyActionMap).forEach(key => {
       this.addKey(key, this.keyBoard.keyActionMap[key].frequency)
     })

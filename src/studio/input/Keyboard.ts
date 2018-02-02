@@ -1,25 +1,40 @@
-import Sound from './../audio/Sound'
+import Sound from '../audio/Sound'
 
+/**
+ * Keyboard class.
+ *
+ * @author Daniel Peters
+ * @version 1.0
+ */
 export default class Keyboard {
+  context: AudioContext
+  compressor: DynamicsCompressorNode
+  keyActionMap
+  registeredInputs
+  /**
+   * Constructor.
+   */
   constructor () {
     try {
-      window.AudioContext = window.AudioContext || window.webkitAudioContext
       this.context = new AudioContext()
     } catch (error) {
       console.log('This browser does not support Web Audio API.')
     }
+    this.compressor = this.context.createDynamicsCompressor()
     // this.gainNode = this.context.createGain()
     this.keyActionMap = {}
     this.registeredInputs = {}
 
-    // this.gainNode.gain.value = 1
+    // this.gainNode.noiseGain.value = 1
     // this.gainNode.connect(this.context.destination)
-    this.createCompressor()
+    this.initCompressor()
     this.registerKeyHandler()
   }
 
-  createCompressor () {
-    this.compressor = this.context.createDynamicsCompressor()
+  /**
+   * Initialize the compressor to fix audio clipping.
+   */
+  private initCompressor (): void {
     this.compressor.threshold.value = -50
     this.compressor.knee.value = 40
     this.compressor.ratio.value = 12
@@ -30,20 +45,20 @@ export default class Keyboard {
 
   /**
    * Register a keyboard key with a sound
+   *
    * @param {string} key
    * @param {number} frequency
-   * @param {string} type
+   * @param {OscillatorType} type
    */
-  registerKey (key, frequency, type = 'sawtooth') {
+  public registerKey (key, frequency, type: OscillatorType = 'sine'): void {
     this.keyActionMap[key] = new Sound(this.context, this.compressor, frequency, type)
   }
 
-  registerKeyHandler () {
-    window.addEventListener('keydown', event => this.setDownEvent(event.key))
-    window.addEventListener('keyup', event => this.setUpEvent(event.key))
-  }
-
-  setDownEvent (key) {
+  /**
+   *
+   * @param key
+   */
+  public setDownEvent (key) {
     if (!this.registeredInputs[key] && this.keyActionMap[key] !== undefined) {
       document.getElementById(key).classList.add('keyActive')
       this.keyActionMap[key].connectAndStart()
@@ -51,7 +66,11 @@ export default class Keyboard {
     }
   }
 
-  setUpEvent (key) {
+  /**
+   *
+   * @param {string} key
+   */
+  public setUpEvent (key: string): void {
     if (this.registeredInputs[key] && this.keyActionMap[key] !== undefined) {
       document.getElementById(key).classList.remove('keyActive')
       this.keyActionMap[key].stopAndDisconnect()
@@ -60,10 +79,10 @@ export default class Keyboard {
   }
 
   /**
-   * Sets type of sounds
-   * @param {string} type sound type (eg. sine, square)
+   *
    */
-  setSoundsType (type) {
-    Object.keys(this.keyActionMap).forEach(sound => { sound.type = type })
+  private registerKeyHandler (): void {
+    window.addEventListener('keydown', event => this.setDownEvent(event.key))
+    window.addEventListener('keyup', event => this.setUpEvent(event.key))
   }
 }

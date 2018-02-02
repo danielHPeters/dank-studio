@@ -1,28 +1,3 @@
-body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif; }
-
-a {
-  color: #00B7FF; }
-
-#keyPad {
-  margin: 50px auto; }
-
-.key {
-  display: inline-block;
-  width: 48px;
-  height: 100px;
-  background-color: #fff;
-  border: 1px solid #000;
-  text-align: center;
-  cursor: pointer; }
-
-.keyDescription {
-  display: inline-block;
-  margin: 80% auto;
-  color: #ff000a; }
-
-.keyActive {
-  background-color: #00B7FF; }
+body{padding:50px;font:14px "Lucida Grande", Helvetica, Arial, sans-serif;box-shadow:5px 10px 18px #888888}a{color:#00B7FF}#keyPad{margin:50px auto}.key{display:inline-block;width:48px;height:100px;background-color:#fff;border:1px solid #000;text-align:center;cursor:pointer}.keyDescription{display:inline-block;margin:80% auto;color:#ff000a}.keyActive{background-color:#00B7FF}
 
 /*# sourceMappingURL=style.css.map */
