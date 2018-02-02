@@ -89,8 +89,23 @@ const init = () => {
     const keyPad = new KeyPad_1.default('keyPad', keyBoard);
     const kickButton = document.getElementById('kick');
     const snareButton = document.getElementById('snare');
+    const mouseHandler = event => {
+        event.preventDefault();
+        switch (event.button) {
+            case 1:
+                break;
+            case 2:
+                playSnare(keyBoard);
+                break;
+            default:
+                playKick(keyBoard);
+                break;
+        }
+    };
     kickButton.addEventListener('click', () => playKick(keyBoard));
     snareButton.addEventListener('click', () => playSnare(keyBoard));
+    document.addEventListener('click', mouseHandler);
+    document.addEventListener('contextmenu', ev => ev.preventDefault());
     keyBoard.registerKey('a', 261.63);
     keyBoard.registerKey('s', 293.66);
     keyBoard.registerKey('d', 329.63);
