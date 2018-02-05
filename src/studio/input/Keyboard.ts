@@ -21,7 +21,7 @@ export default class Keyboard {
       console.log('This browser does not support Web Audio API.')
     }
     this.compressor = this.context.createDynamicsCompressor()
-    // this.gainNode = this.context.createGain()
+    // this.gainNode = this.context.createGain()k
     this.keyActionMap = {}
     this.registeredInputs = {}
 
@@ -50,7 +50,7 @@ export default class Keyboard {
    * @param {number} frequency
    * @param {OscillatorType} type
    */
-  public registerKey (key, frequency, type: OscillatorType = 'sine'): void {
+  public registerKey (key, frequency, type: OscillatorType = 'sawtooth'): void {
     this.keyActionMap[key] = new Sound(this.context, this.compressor, frequency, type)
   }
 
@@ -66,7 +66,7 @@ export default class Keyboard {
     }
   }
 
-  /**
+  /**jhgfdsa
    *
    * @param {string} key
    */
