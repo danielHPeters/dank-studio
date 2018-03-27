@@ -1,4 +1,9 @@
 import Sound from '../audio/Sound'
+import ISound from '../../interfaces/ISound'
+
+export enum KeyboardStyles {
+  ACTIVE = 'keyActive'
+}
 
 /**
  * Keyboard class.
@@ -9,26 +14,62 @@ import Sound from '../audio/Sound'
 export default class Keyboard {
   context: AudioContext
   compressor: DynamicsCompressorNode
-  keyActionMap
-  registeredInputs
+  keySoundMap: Map<string, ISound>
+  registeredInputs: Map<string, boolean>
   /**
    * Constructor.
    */
   constructor () {
     try {
       this.context = new AudioContext()
-    } catch (error) {
-      console.log('This browser does not support Web Audio API.')
-    }
-    this.compressor = this.context.createDynamicsCompressor()
-    // this.gainNode = this.context.createGain()k
-    this.keyActionMap = {}
-    this.registeredInputs = {}
+      this.compressor = this.context.createDynamicsCompressor()
+      // this.gainNode = this.context.createGain()
+      this.keySoundMap = new Map<string, ISound>()
+      this.registeredInputs = new Map<string, boolean>()
 
-    // this.gainNode.noiseGain.value = 1
-    // this.gainNode.connect(this.context.destination)
-    this.initCompressor()
-    this.registerKeyHandler()
+      // this.gainNode.noiseGain.value = 1
+      // this.gainNode.connect(this.context.destination)
+      this.initCompressor()
+      this.registerKeyHandler()
+    } catch (error) {
+      console.log('This browser does not support Web Audio API.', error)
+    }
+  }
+
+  /**
+   * Register a keyboard key with a sound
+   *
+   * @param {string} key
+   * @param {number} frequency
+   * @param {OscillatorType} type
+   */
+  public registerKey (key: string, frequency: number, type: OscillatorType = 'sawtooth'): void {
+    this.keySoundMap.set(key, new Sound(this.context, this.compressor, frequency, type))
+  }
+
+  /**
+   *
+   * @param {string} key
+   */
+  public setDownEvent (key: string) {
+    if (!this.registeredInputs[key] && this.keySoundMap[key] !== undefined) {
+      document.getElementById(key).classList.add(KeyboardStyles.ACTIVE)
+      this.keySoundMap.get(key).init()
+      this.keySoundMap.get(key).play()
+      this.registeredInputs.set(key, true)
+    }
+  }
+
+  /**
+   *
+   * @param {string} key
+   */
+  public setUpEvent (key: string): void {
+    if (this.registeredInputs[key] && this.keySoundMap[key] !== undefined) {
+      document.getElementById(key).classList.remove(KeyboardStyles.ACTIVE)
+      this.keySoundMap.get(key).stop()
+      this.registeredInputs.set(key, false)
+    }
   }
 
   /**
@@ -41,41 +82,6 @@ export default class Keyboard {
     this.compressor.attack.value = 0
     this.compressor.release.value = 0.25
     this.compressor.connect(this.context.destination)
-  }
-
-  /**
-   * Register a keyboard key with a sound
-   *
-   * @param {string} key
-   * @param {number} frequency
-   * @param {OscillatorType} type
-   */
-  public registerKey (key, frequency, type: OscillatorType = 'sawtooth'): void {
-    this.keyActionMap[key] = new Sound(this.context, this.compressor, frequency, type)
-  }
-
-  /**
-   *
-   * @param key
-   */
-  public setDownEvent (key) {
-    if (!this.registeredInputs[key] && this.keyActionMap[key] !== undefined) {
-      document.getElementById(key).classList.add('keyActive')
-      this.keyActionMap[key].init()
-      this.registeredInputs[key] = true
-    }
-  }
-
-  /**jhgfdsa
-   *
-   * @param {string} key
-   */
-  public setUpEvent (key: string): void {
-    if (this.registeredInputs[key] && this.keyActionMap[key] !== undefined) {
-      document.getElementById(key).classList.remove('keyActive')
-      this.keyActionMap[key].stop()
-      this.registeredInputs[key] = false
-    }
   }
 
   /**

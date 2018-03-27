@@ -13,18 +13,6 @@ const playSnare = keyBoard => {
   snare.play(false, keyBoard.context.currentTime)
 }
 
-const mouseHandler = event => {
-  event.preventDefault()
-  switch (event.button) {
-    case 1:
-      break
-    case 2:
-      break
-    default:
-      break
-  }
-}
-
 document.addEventListener('DOMContentLoaded', () => {
   const keyBoard = new KeyBoard()
   const keyPad = new KeyPad('keyPad', keyBoard)
