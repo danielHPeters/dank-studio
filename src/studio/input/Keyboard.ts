@@ -61,7 +61,7 @@ export default class Keyboard {
   public setDownEvent (key) {
     if (!this.registeredInputs[key] && this.keyActionMap[key] !== undefined) {
       document.getElementById(key).classList.add('keyActive')
-      this.keyActionMap[key].connectAndStart()
+      this.keyActionMap[key].init()
       this.registeredInputs[key] = true
     }
   }
@@ -73,7 +73,7 @@ export default class Keyboard {
   public setUpEvent (key: string): void {
     if (this.registeredInputs[key] && this.keyActionMap[key] !== undefined) {
       document.getElementById(key).classList.remove('keyActive')
-      this.keyActionMap[key].stopAndDisconnect()
+      this.keyActionMap[key].stop()
       this.registeredInputs[key] = false
     }
   }

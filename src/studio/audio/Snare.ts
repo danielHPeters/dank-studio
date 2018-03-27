@@ -1,10 +1,12 @@
+import ISound from '../../interfaces/ISound'
+
 /**
  * Snare sound class.
  *
  * @author Daniel Peters
  * @version 1.0
  */
-export default class Snare {
+export default class Snare implements ISound {
   private context: AudioContext
   private noise: AudioBufferSourceNode
   private frequency: number
@@ -50,10 +52,7 @@ export default class Snare {
     return buffer
   }
 
-  /**
-   *
-   */
-  private init (): void {
+  public init (): void {
     const noiseFilter = this.context.createBiquadFilter()
     this.noise.buffer = this.createNoiseBuffer()
     noiseFilter.type = this.noiseFilter
@@ -66,11 +65,7 @@ export default class Snare {
     this.oscillatorGain.connect(this.context.destination)
   }
 
-  /**
-   *
-   * @param {number} time
-   */
-  public play (time: number): void {
+  public play (loop: boolean = false, time: number = 0): void {
     this.init()
 
     this.noiseGain.gain.setValueAtTime(1, time)
@@ -86,5 +81,9 @@ export default class Snare {
 
     this.oscillator.stop(time + 0.2)
     this.noise.stop(time + 0.2)
+  }
+
+  public stop (delay: number = 0): void {
+
   }
 }

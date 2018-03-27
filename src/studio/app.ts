@@ -5,14 +5,12 @@ import Snare from './audio/Snare'
 
 const playKick = keyBoard => {
   const kick = new Kick(keyBoard.context, 150)
-  const now = keyBoard.context.currentTime
-  kick.play(now)
+  kick.play(false, keyBoard.context.currentTime)
 }
 
 const playSnare = keyBoard => {
   const snare = new Snare(keyBoard.context, 100, 1000, 'highpass', 'triangle')
-  const now = keyBoard.context.currentTime
-  snare.play(now)
+  snare.play(false, keyBoard.context.currentTime)
 }
 
 const mouseHandler = event => {
@@ -27,7 +25,7 @@ const mouseHandler = event => {
   }
 }
 
-const init = () => {
+document.addEventListener('DOMContentLoaded', () => {
   const keyBoard = new KeyBoard()
   const keyPad = new KeyPad('keyPad', keyBoard)
   const kickButton = document.getElementById('kick')
@@ -44,6 +42,4 @@ const init = () => {
   keyBoard.registerKey('j', 493.88)
   keyBoard.registerKey('k', 523.25)
   keyPad.addAllKeys()
-}
-
-document.addEventListener('DOMContentLoaded', init)
+})
