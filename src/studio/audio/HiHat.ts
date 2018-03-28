@@ -7,9 +7,11 @@ import ISound from '../../interfaces/ISound'
  * @version 1.0
  */
 export default class HiHat implements ISound {
-  private context: AudioContext
+  public context: AudioContext
+  public gain: GainNode
   private source: AudioBufferSourceNode
   private buffer: AudioBuffer
+  public frequency: number
   /**
    * Conscrutor.
    *
@@ -20,6 +22,7 @@ export default class HiHat implements ISound {
     this.context = context
     this.source = context.createBufferSource()
     this.buffer = buffer
+    this.frequency = 0
   }
 
   public init (): void {

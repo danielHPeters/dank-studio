@@ -5,6 +5,9 @@
  * @version 1.0
  */
 export default interface ISound {
+  context: AudioContext
+  gain: GainNode
+  frequency: number
   /**
    * Initialize the sound.
    */

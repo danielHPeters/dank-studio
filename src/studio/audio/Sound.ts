@@ -7,11 +7,11 @@ import ISound from '../../interfaces/ISound'
  * @version 1.0
  */
 export default class Sound implements ISound {
-  private context: AudioContext
+  public context: AudioContext
+  public gain: GainNode
+  public frequency: number
   private compressor: DynamicsCompressorNode
-  private frequency: number
   private oscillator: OscillatorNode
-  private gainNode: GainNode
   public oscillatorType: OscillatorType
 
   /**
@@ -34,13 +34,13 @@ export default class Sound implements ISound {
    */
   public init (): void {
     this.oscillator = this.context.createOscillator()
-    this.gainNode = this.context.createGain()
-    this.gainNode.connect(this.compressor)
+    this.gain = this.context.createGain()
+    this.gain.connect(this.compressor)
     this.oscillator.type = this.oscillatorType
     this.oscillator.frequency.value = this.frequency
-    this.oscillator.connect(this.gainNode)
-    this.gainNode.gain.setValueAtTime(0, this.context.currentTime)
-    this.gainNode.gain.linearRampToValueAtTime(0.4, this.context.currentTime + 0.1)
+    this.oscillator.connect(this.gain)
+    this.gain.gain.setValueAtTime(0, this.context.currentTime)
+    this.gain.gain.linearRampToValueAtTime(0.4, this.context.currentTime + 0.1)
     this.oscillator.start(0.5)
   }
 
@@ -52,7 +52,7 @@ export default class Sound implements ISound {
    * Stop sound.
    */
   public stop (delay: number = 0): void {
-    this.gainNode.gain.linearRampToValueAtTime(0, this.context.currentTime + 0.8)
+    this.gain.gain.linearRampToValueAtTime(0, this.context.currentTime + 0.8)
     this.oscillator.stop(this.context.currentTime + 2.8)
   }
 }

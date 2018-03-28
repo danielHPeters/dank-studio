@@ -1,5 +1,7 @@
 import Sound from '../audio/Sound'
 import ISound from '../../interfaces/ISound'
+import Snare from '../audio/Snare'
+import Kick from '../audio/Kick'
 
 export enum KeyboardStyles {
   ACTIVE = 'keyActive'
@@ -45,6 +47,8 @@ export default class Keyboard {
    */
   public registerKey (key: string, frequency: number, type: OscillatorType = 'sawtooth'): void {
     this.keySoundMap.set(key, new Sound(this.context, this.compressor, frequency, type))
+    this.keySoundMap.set(key, new Snare(this.context, 100, 1000, 'highpass', 'triangle'))
+    this.keySoundMap.set(key, new Kick(this.context, 150))
   }
 
   /**

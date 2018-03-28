@@ -7,10 +7,10 @@ import ISound from '../../interfaces/ISound'
  * @version 1.0
  */
 export default class Kick implements ISound {
-  private context: AudioContext
-  private oscillator: OscillatorNode
-  private gain: GainNode
-  private frequency: number
+  public context: AudioContext
+  public oscillator: OscillatorNode
+  public gain: GainNode
+  public frequency: number
   /**
    * Constructor.
    *

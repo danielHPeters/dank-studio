@@ -7,13 +7,14 @@ import ISound from '../../interfaces/ISound'
  * @version 1.0
  */
 export default class Snare implements ISound {
-  private context: AudioContext
+  public context: AudioContext
+  public frequency: number
+  public gain: GainNode
   private noise: AudioBufferSourceNode
-  private frequency: number
   private noiseFrequency: number
   private noiseFilter: BiquadFilterType
-  private oscillatorType: OscillatorType
   private noiseGain: GainNode
+  private oscillatorType: OscillatorType
   private oscillator: OscillatorNode
   private oscillatorGain: GainNode
   /**
@@ -33,7 +34,7 @@ export default class Snare implements ISound {
     this.oscillatorType = oscillatorType
     this.noiseGain = context.createGain()
     this.oscillator = context.createOscillator()
-    this.oscillatorGain = context.createGain()
+    this.gain = context.createGain()
   }
 
   /**
@@ -59,10 +60,11 @@ export default class Snare implements ISound {
     noiseFilter.frequency.value = this.noiseFrequency
     this.noise.connect(noiseFilter)
     noiseFilter.connect(this.noiseGain)
-    this.noiseGain.connect(this.context.destination)
+    this.noiseGain.connect(this.gain)
     this.oscillator.type = this.oscillatorType
     this.oscillator.connect(this.oscillatorGain)
-    this.oscillatorGain.connect(this.context.destination)
+    this.oscillatorGain.connect(this.gain)
+    this.gain.connect(this.context.destination)
   }
 
   public play (loop: boolean = false, time: number = 0): void {
@@ -74,8 +76,8 @@ export default class Snare implements ISound {
     this.noise.start(time)
 
     this.oscillator.frequency.setValueAtTime(this.frequency, time)
-    this.oscillatorGain.gain.setValueAtTime(0.7, time)
-    this.oscillatorGain.gain.exponentialRampToValueAtTime(0.01, time + 0.1)
+    this.gain.gain.setValueAtTime(0.7, time)
+    this.gain.gain.exponentialRampToValueAtTime(0.01, time + 0.1)
 
     this.oscillator.start(time)
 
