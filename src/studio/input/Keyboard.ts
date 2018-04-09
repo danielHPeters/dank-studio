@@ -2,6 +2,7 @@ import Sound from '../audio/Sound'
 import ISound from '../../interfaces/ISound'
 import Snare from '../audio/Snare'
 import Kick from '../audio/Kick'
+import { ESoundType } from '../../enum/ESoundType'
 
 export enum KeyboardStyles {
   ACTIVE = 'keyActive'
@@ -43,12 +44,23 @@ export default class Keyboard {
    *
    * @param {string} key
    * @param {number} frequency
-   * @param {OscillatorType} type
+   * @param {ESoundType} type
+   * @param {OscillatorType} oscillatorType
    */
-  public registerKey (key: string, frequency: number, type: OscillatorType = 'sawtooth'): void {
-    this.keySoundMap.set(key, new Sound(this.context, this.compressor, frequency, type))
-    this.keySoundMap.set(key, new Snare(this.context, 100, 1000, 'highpass', 'triangle'))
-    this.keySoundMap.set(key, new Kick(this.context, 150))
+  public registerKey (key: string, frequency: number, type: ESoundType = ESoundType.NOTE, oscillatorType: OscillatorType = 'sawtooth'): void {
+    switch (type) {
+      case ESoundType.NOTE:
+        this.keySoundMap.set(key, new Sound(this.context, this.compressor, frequency, oscillatorType))
+        break
+      case ESoundType.SNARE:
+        this.keySoundMap.set(key, new Snare(this.context, frequency, 1000, 'highpass', 'triangle'))
+        break
+      case ESoundType.KICK:
+        this.keySoundMap.set(key, new Kick(this.context, frequency))
+        break
+      case ESoundType.HITHAT:
+        break
+    }
   }
 
   /**
@@ -56,7 +68,7 @@ export default class Keyboard {
    * @param {string} key
    */
   public setDownEvent (key: string) {
-    if (!this.registeredInputs[key] && this.keySoundMap[key] !== undefined) {
+    if (!this.registeredInputs.get(key) !== undefined && this.keySoundMap.get(key) !== undefined) {
       document.getElementById(key).classList.add(KeyboardStyles.ACTIVE)
       this.keySoundMap.get(key).init()
       this.keySoundMap.get(key).play()
@@ -69,7 +81,7 @@ export default class Keyboard {
    * @param {string} key
    */
   public setUpEvent (key: string): void {
-    if (this.registeredInputs[key] && this.keySoundMap[key] !== undefined) {
+    if (this.registeredInputs.get(key) !== undefined && this.keySoundMap.get(key) !== undefined) {
       document.getElementById(key).classList.remove(KeyboardStyles.ACTIVE)
       this.keySoundMap.get(key).stop()
       this.registeredInputs.set(key, false)

@@ -19,8 +19,6 @@ export default class Kick implements ISound {
    */
   constructor (context: AudioContext, frequency: number) {
     this.context = context
-    this.oscillator = context.createOscillator()
-    this.gain = context.createGain()
     this.frequency = frequency
   }
 
@@ -28,14 +26,13 @@ export default class Kick implements ISound {
    *
    */
   public init (): void {
+    const delay = this.context.currentTime
+    this.oscillator = this.context.createOscillator()
+    this.gain = this.context.createGain()
     this.oscillator.connect(this.gain)
     this.gain.connect(this.context.destination)
-  }
-
-  public play (loop: boolean = false, delay: number = 0): void {
     const delTime = 0.5
     const rampValue = 0.01
-    this.init()
 
     this.oscillator.frequency.setValueAtTime(this.frequency, delay)
     this.gain.gain.setValueAtTime(1, delay)
@@ -46,6 +43,10 @@ export default class Kick implements ISound {
     this.oscillator.start(delay)
 
     this.oscillator.stop(delay + delTime)
+  }
+
+  public play (loop: boolean = false, delay: number = 0): void {
+
   }
 
   public stop (delay: number = 0): void {

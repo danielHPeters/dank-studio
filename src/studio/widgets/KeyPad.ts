@@ -52,6 +52,7 @@ export default class KeyPad {
    * Add all keys registered on the keyboard to the keypad.
    */
   public addAllKeys (): void {
-    Object.keys(this.keyBoard.keySoundMap).forEach(key => this.addKey(key, this.keyBoard.keySoundMap.get(key).frequency.toString()))
+    this.keyBoard.keySoundMap.forEach((sound, key) => this.addKey(key, sound.frequency.toString()))
+    //Object.keys(this.keyBoard.keySoundMap).forEach(key => this.addKey(key, this.keyBoard.keySoundMap.get(key).frequency.toString()))
   }
 }

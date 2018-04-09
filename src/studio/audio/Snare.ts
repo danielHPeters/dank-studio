@@ -27,14 +27,10 @@ export default class Snare implements ISound {
    */
   constructor (context: AudioContext, frequency: number, noiseFrequency: number, noiseFilter: BiquadFilterType, oscillatorType: OscillatorType) {
     this.context = context
-    this.noise = context.createBufferSource()
     this.frequency = frequency
     this.noiseFrequency = noiseFrequency
     this.noiseFilter = noiseFilter
     this.oscillatorType = oscillatorType
-    this.noiseGain = context.createGain()
-    this.oscillator = context.createOscillator()
-    this.gain = context.createGain()
   }
 
   /**
@@ -54,6 +50,11 @@ export default class Snare implements ISound {
   }
 
   public init (): void {
+    this.noiseGain = this.context.createGain()
+    this.gain = this.context.createGain()
+    this.noise = this.context.createBufferSource()
+    this.oscillator = this.context.createOscillator()
+    const time = this.context.currentTime
     const noiseFilter = this.context.createBiquadFilter()
     this.noise.buffer = this.createNoiseBuffer()
     noiseFilter.type = this.noiseFilter
@@ -65,10 +66,6 @@ export default class Snare implements ISound {
     this.oscillator.connect(this.oscillatorGain)
     this.oscillatorGain.connect(this.gain)
     this.gain.connect(this.context.destination)
-  }
-
-  public play (loop: boolean = false, time: number = 0): void {
-    this.init()
 
     this.noiseGain.gain.setValueAtTime(1, time)
     this.noiseGain.gain.exponentialRampToValueAtTime(0.01, time + 0.2)
@@ -83,6 +80,10 @@ export default class Snare implements ISound {
 
     this.oscillator.stop(time + 0.2)
     this.noise.stop(time + 0.2)
+  }
+
+  public play (loop: boolean = false, delay: number = 0): void {
+
   }
 
   public stop (delay: number = 0): void {
