@@ -68,7 +68,7 @@ export default class Keyboard {
    * @param {string} key
    */
   public setDownEvent (key: string) {
-    if (!this.registeredInputs.get(key) !== undefined && this.keySoundMap.get(key) !== undefined) {
+    if (!this.registeredInputs.get(key) && this.keySoundMap.get(key) !== undefined) {
       document.getElementById(key).classList.add(KeyboardStyles.ACTIVE)
       this.keySoundMap.get(key).init()
       this.keySoundMap.get(key).play()
@@ -81,7 +81,7 @@ export default class Keyboard {
    * @param {string} key
    */
   public setUpEvent (key: string): void {
-    if (this.registeredInputs.get(key) !== undefined && this.keySoundMap.get(key) !== undefined) {
+    if (this.registeredInputs.get(key) && this.keySoundMap.get(key) !== undefined) {
       document.getElementById(key).classList.remove(KeyboardStyles.ACTIVE)
       this.keySoundMap.get(key).stop()
       this.registeredInputs.set(key, false)

@@ -53,6 +53,5 @@ export default class KeyPad {
    */
   public addAllKeys (): void {
     this.keyBoard.keySoundMap.forEach((sound, key) => this.addKey(key, sound.frequency.toString()))
-    //Object.keys(this.keyBoard.keySoundMap).forEach(key => this.addKey(key, this.keyBoard.keySoundMap.get(key).frequency.toString()))
   }
 }
