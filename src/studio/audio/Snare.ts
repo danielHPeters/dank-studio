@@ -51,6 +51,7 @@ export default class Snare implements ISound {
 
   public init (): void {
     this.noiseGain = this.context.createGain()
+    this.oscillatorGain = this.context.createGain()
     this.gain = this.context.createGain()
     this.noise = this.context.createBufferSource()
     this.oscillator = this.context.createOscillator()
