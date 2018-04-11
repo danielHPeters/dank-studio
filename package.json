@@ -13,7 +13,8 @@
     "morgan": "~1.9.0",
     "node-sass-middleware": "^0.11.0",
     "pug": "^2.0.0-rc.4",
-    "serve-favicon": "~2.4.5"
+    "serve-favicon": "~2.4.5",
+    "http-errors": "latest"
   },
   "devDependencies": {
     "@types/webaudioapi": "0.0.27",
