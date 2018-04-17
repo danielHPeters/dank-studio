@@ -10,6 +10,7 @@ export default class Sound implements ISound {
   context: AudioContext
   gain: GainNode
   frequency: number
+  volume: number
   oscillatorType: OscillatorType
   private compressor: DynamicsCompressorNode
   private oscillator: OscillatorNode

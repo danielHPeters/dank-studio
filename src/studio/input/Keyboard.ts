@@ -3,6 +3,7 @@ import ISound from '../../interfaces/ISound'
 import Snare from '../audio/Snare'
 import Kick from '../audio/Kick'
 import { ESoundType } from '../../enum/ESoundType'
+import AudioItem from '../widgets/AudioItem';
 
 export enum KeyboardStyles {
   ACTIVE = 'keyActive'
@@ -34,6 +35,8 @@ export default class Keyboard {
       // this.gainNode.connect(this.context.destination)
       this.initCompressor()
       this.registerKeyHandler()
+      const audioItem = new AudioItem('test', new Sound(this.context, this.compressor, 440, 'sine'))
+      document.body.appendChild(audioItem.element)
     } catch (error) {
       console.log('This browser does not support Web Audio API.', error)
     }
@@ -47,7 +50,7 @@ export default class Keyboard {
    * @param {ESoundType} type
    * @param {OscillatorType} oscillatorType
    */
-  registerKey (key: string, frequency: number, type: ESoundType = ESoundType.NOTE, oscillatorType: OscillatorType = 'sawtooth'): void {
+  registerKey (key: string, frequency: number, type: ESoundType = ESoundType.NOTE, oscillatorType: OscillatorType = 'square'): void {
     switch (type) {
       case ESoundType.NOTE:
         this.keySoundMap.set(key, new Sound(this.context, this.compressor, frequency, oscillatorType))

@@ -11,6 +11,8 @@ export default class Kick implements ISound {
   oscillator: OscillatorNode
   gain: GainNode
   frequency: number
+  volume: number
+
   /**
    * Constructor.
    *

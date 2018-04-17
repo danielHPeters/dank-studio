@@ -10,6 +10,7 @@ export default class Snare implements ISound {
   context: AudioContext
   frequency: number
   gain: GainNode
+  volume: number
   private noise: AudioBufferSourceNode
   private noiseFrequency: number
   private noiseFilter: BiquadFilterType

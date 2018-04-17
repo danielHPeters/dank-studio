@@ -10,6 +10,7 @@ export default class HiHat implements ISound {
   context: AudioContext
   gain: GainNode
   frequency: number
+  volume: number
   private source: AudioBufferSourceNode
   private buffer: AudioBuffer
   /**
