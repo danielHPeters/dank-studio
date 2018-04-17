@@ -23,6 +23,13 @@ export default class KeyPad {
   }
 
   /**
+   * Add all keys registered on the keyboard to the keypad.
+   */
+  addAllKeys (): void {
+    this.keyBoard.keySoundMap.forEach((sound, key) => this.addKey(key, sound.frequency.toString()))
+  }
+
+  /**
    * Add a key element.
    *
    * @param {string} id
@@ -46,12 +53,5 @@ export default class KeyPad {
     newKey.addEventListener('mouseleave', event => this.keyBoard.setUpEvent(id))
     newKey.addEventListener('touchend', event => this.keyBoard.setUpEvent(id))
     this.element.appendChild(newKey)
-  }
-
-  /**
-   * Add all keys registered on the keyboard to the keypad.
-   */
-  public addAllKeys (): void {
-    this.keyBoard.keySoundMap.forEach((sound, key) => this.addKey(key, sound.frequency.toString()))
   }
 }

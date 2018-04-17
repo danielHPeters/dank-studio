@@ -2,6 +2,12 @@ import KeyBoard from './input/Keyboard'
 import KeyPad from './widgets/KeyPad'
 import { ESoundType } from '../enum/ESoundType'
 
+/**
+ * Init script. Set all keys here.
+ * 
+ * @author Daniel Peters
+ * @version 1.1
+ */
 document.addEventListener('DOMContentLoaded', () => {
   const keyBoard = new KeyBoard()
   const keyPad = new KeyPad('keyPad', keyBoard)

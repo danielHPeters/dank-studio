@@ -7,10 +7,10 @@ import ISound from '../../interfaces/ISound'
  * @version 1.0
  */
 export default class Kick implements ISound {
-  public context: AudioContext
-  public oscillator: OscillatorNode
-  public gain: GainNode
-  public frequency: number
+  context: AudioContext
+  oscillator: OscillatorNode
+  gain: GainNode
+  frequency: number
   /**
    * Constructor.
    *
@@ -25,7 +25,7 @@ export default class Kick implements ISound {
   /**
    *
    */
-  public init (): void {
+  init (): void {
     const delay = this.context.currentTime
     this.oscillator = this.context.createOscillator()
     this.gain = this.context.createGain()
@@ -45,11 +45,11 @@ export default class Kick implements ISound {
     this.oscillator.stop(delay + delTime)
   }
 
-  public play (loop: boolean = false, delay: number = 0): void {
+  play (loop: boolean = false, delay: number = 0): void {
 
   }
 
-  public stop (delay: number = 0): void {
+  stop (delay: number = 0): void {
 
   }
 }

@@ -7,12 +7,12 @@ import ISound from '../../interfaces/ISound'
  * @version 1.0
  */
 export default class Sound implements ISound {
-  public context: AudioContext
-  public gain: GainNode
-  public frequency: number
+  context: AudioContext
+  gain: GainNode
+  frequency: number
+  oscillatorType: OscillatorType
   private compressor: DynamicsCompressorNode
   private oscillator: OscillatorNode
-  public oscillatorType: OscillatorType
 
   /**
    * Constructor.
@@ -32,7 +32,7 @@ export default class Sound implements ISound {
   /**
    * Connect to audio output and play sound.
    */
-  public init (): void {
+  init (): void {
     this.oscillator = this.context.createOscillator()
     this.gain = this.context.createGain()
     this.gain.connect(this.compressor)
@@ -44,14 +44,14 @@ export default class Sound implements ISound {
     this.oscillator.start(0.5)
   }
 
-  public play (loop: boolean = false, delay: number = 0): void {
+  play (loop: boolean = false, delay: number = 0): void {
 
   }
 
   /**
    * Stop sound.
    */
-  public stop (delay: number = 0): void {
+  stop (delay: number = 0): void {
     this.gain.gain.linearRampToValueAtTime(0, this.context.currentTime + 0.8)
     this.oscillator.stop(this.context.currentTime + 2.8)
   }

@@ -7,9 +7,9 @@ import ISound from '../../interfaces/ISound'
  * @version 1.0
  */
 export default class Snare implements ISound {
-  public context: AudioContext
-  public frequency: number
-  public gain: GainNode
+  context: AudioContext
+  frequency: number
+  gain: GainNode
   private noise: AudioBufferSourceNode
   private noiseFrequency: number
   private noiseFilter: BiquadFilterType
@@ -33,23 +33,7 @@ export default class Snare implements ISound {
     this.oscillatorType = oscillatorType
   }
 
-  /**
-   *
-   * @returns {AudioBuffer}
-   */
-  private createNoiseBuffer (): AudioBuffer {
-    const bufferSize = this.context.sampleRate
-    const buffer = this.context.createBuffer(1, bufferSize, this.context.sampleRate)
-    const output = buffer.getChannelData(0)
-
-    for (let i = 0; i < bufferSize; i++) {
-      output[i] = Math.random() * 2 - 1
-    }
-
-    return buffer
-  }
-
-  public init (): void {
+  init (): void {
     this.noiseGain = this.context.createGain()
     this.oscillatorGain = this.context.createGain()
     this.gain = this.context.createGain()
@@ -83,11 +67,27 @@ export default class Snare implements ISound {
     this.noise.stop(time + 0.2)
   }
 
-  public play (loop: boolean = false, delay: number = 0): void {
+  play (loop: boolean = false, delay: number = 0): void {
 
   }
 
-  public stop (delay: number = 0): void {
+  stop (delay: number = 0): void {
 
+  }
+
+  /**
+   *
+   * @returns {AudioBuffer}
+   */
+  private createNoiseBuffer (): AudioBuffer {
+    const bufferSize = this.context.sampleRate
+    const buffer = this.context.createBuffer(1, bufferSize, this.context.sampleRate)
+    const output = buffer.getChannelData(0)
+
+    for (let i = 0; i < bufferSize; i++) {
+      output[i] = Math.random() * 2 - 1
+    }
+
+    return buffer
   }
 }

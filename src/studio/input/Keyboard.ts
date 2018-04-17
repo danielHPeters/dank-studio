@@ -47,7 +47,7 @@ export default class Keyboard {
    * @param {ESoundType} type
    * @param {OscillatorType} oscillatorType
    */
-  public registerKey (key: string, frequency: number, type: ESoundType = ESoundType.NOTE, oscillatorType: OscillatorType = 'sawtooth'): void {
+  registerKey (key: string, frequency: number, type: ESoundType = ESoundType.NOTE, oscillatorType: OscillatorType = 'sawtooth'): void {
     switch (type) {
       case ESoundType.NOTE:
         this.keySoundMap.set(key, new Sound(this.context, this.compressor, frequency, oscillatorType))
@@ -67,7 +67,7 @@ export default class Keyboard {
    *
    * @param {string} key
    */
-  public setDownEvent (key: string) {
+  setDownEvent (key: string) {
     if (!this.registeredInputs.get(key) && this.keySoundMap.get(key) !== undefined) {
       document.getElementById(key).classList.add(KeyboardStyles.ACTIVE)
       this.keySoundMap.get(key).init()
@@ -80,7 +80,7 @@ export default class Keyboard {
    *
    * @param {string} key
    */
-  public setUpEvent (key: string): void {
+  setUpEvent (key: string): void {
     if (this.registeredInputs.get(key) && this.keySoundMap.get(key) !== undefined) {
       document.getElementById(key).classList.remove(KeyboardStyles.ACTIVE)
       this.keySoundMap.get(key).stop()
