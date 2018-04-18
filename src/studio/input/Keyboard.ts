@@ -35,8 +35,6 @@ export default class Keyboard {
 
       this.initCompressor()
       this.registerKeyHandler()
-      const audioItem = new AudioItem('test', new Sound(this.context, this.compressor, 440, 'sine'))
-      document.body.appendChild(audioItem.element)
     } catch (error) {
       console.log('This browser does not support Web Audio API.', error)
     }
