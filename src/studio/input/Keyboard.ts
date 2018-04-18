@@ -18,6 +18,7 @@ export enum KeyboardStyles {
  */
 export default class Keyboard {
   context: AudioContext
+  masterGain: GainNode
   compressor: DynamicsCompressorNode
   keySoundMap: Map<string, ISound>
   registeredInputs: Map<string, boolean>
@@ -28,11 +29,12 @@ export default class Keyboard {
   constructor () {
     try {
       this.context = new AudioContext()
+      this.masterGain = this.context.createGain()
       this.compressor = this.context.createDynamicsCompressor()
       this.soundFactory = new SoundFactory(this.context, this.compressor)
       this.keySoundMap = new Map<string, ISound>()
       this.registeredInputs = new Map<string, boolean>()
-
+      this.masterGain.connect(this.context.destination)
       this.initCompressor()
       this.registerKeyHandler()
     } catch (error) {
@@ -86,7 +88,7 @@ export default class Keyboard {
     this.compressor.ratio.value = 12
     this.compressor.attack.value = 0
     this.compressor.release.value = 0.25
-    this.compressor.connect(this.context.destination)
+    this.compressor.connect(this.masterGain)
   }
 
   /**

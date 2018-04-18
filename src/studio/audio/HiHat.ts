@@ -8,6 +8,7 @@ import ISound from '../../interfaces/ISound'
  */
 export default class HiHat implements ISound {
   context: AudioContext
+  compressor: DynamicsCompressorNode
   gain: GainNode
   frequency: number
   volume: number

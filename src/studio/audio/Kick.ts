@@ -8,6 +8,7 @@ import ISound from '../../interfaces/ISound'
  */
 export default class Kick implements ISound {
   context: AudioContext
+  compressor: DynamicsCompressorNode
   oscillator: OscillatorNode
   gain: GainNode
   frequency: number
@@ -19,8 +20,9 @@ export default class Kick implements ISound {
    * @param {AudioContext} context
    * @param {number} frequency
    */
-  constructor (context: AudioContext, frequency: number) {
+  constructor (context: AudioContext, compressor: DynamicsCompressorNode, frequency: number) {
     this.context = context
+    this.compressor = compressor
     this.frequency = frequency
   }
 
@@ -32,7 +34,7 @@ export default class Kick implements ISound {
     this.oscillator = this.context.createOscillator()
     this.gain = this.context.createGain()
     this.oscillator.connect(this.gain)
-    this.gain.connect(this.context.destination)
+    this.gain.connect(this.compressor)
     const delTime = 0.5
     const rampValue = 0.01
 

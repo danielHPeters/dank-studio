@@ -36,9 +36,9 @@ export default class SoundFactory {
         case ESoundType.NOTE:
           return new Sound(this.context, this.compressor, frequency, oscillatorType)
         case ESoundType.SNARE:
-          return new Snare(this.context, frequency, 1000, 'highpass', 'triangle')
+          return new Snare(this.context, this.compressor, frequency, 1000, 'highpass', 'triangle')
         case ESoundType.KICK:
-          return new Kick(this.context, frequency)
+          return new Kick(this.context, this.compressor, frequency)
         case ESoundType.HITHAT:
           throw new Error('Not Implemented!')
       }

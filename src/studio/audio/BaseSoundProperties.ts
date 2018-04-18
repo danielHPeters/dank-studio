@@ -3,6 +3,10 @@ import { AudioItemStyles } from '../../interfaces/IAdioItem'
 export default class BaseSoundProperties {
   frequency: number
   volume: number
+  constructor (frequency: number, volume: number) {
+    this.frequency = frequency
+    this.volume = volume
+  }
   mapToElement(element: HTMLElement) {
     Object.keys(this).forEach(prop => {
       const propElement = document.createElement('input') as HTMLInputElement

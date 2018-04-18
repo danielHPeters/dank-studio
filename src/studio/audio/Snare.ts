@@ -8,6 +8,7 @@ import ISound from '../../interfaces/ISound'
  */
 export default class Snare implements ISound {
   context: AudioContext
+  compressor: DynamicsCompressorNode
   frequency: number
   gain: GainNode
   volume: number
@@ -26,8 +27,9 @@ export default class Snare implements ISound {
    * @param {string} noiseFilter
    * @param {string} oscillatorType
    */
-  constructor (context: AudioContext, frequency: number, noiseFrequency: number, noiseFilter: BiquadFilterType, oscillatorType: OscillatorType) {
+  constructor (context: AudioContext, compressor: DynamicsCompressorNode, frequency: number, noiseFrequency: number, noiseFilter: BiquadFilterType, oscillatorType: OscillatorType) {
     this.context = context
+    this.compressor = compressor
     this.frequency = frequency
     this.noiseFrequency = noiseFrequency
     this.noiseFilter = noiseFilter
@@ -51,7 +53,7 @@ export default class Snare implements ISound {
     this.oscillator.type = this.oscillatorType
     this.oscillator.connect(this.oscillatorGain)
     this.oscillatorGain.connect(this.gain)
-    this.gain.connect(this.context.destination)
+    this.gain.connect(this.compressor)
 
     this.noiseGain.gain.setValueAtTime(1, time)
     this.noiseGain.gain.exponentialRampToValueAtTime(0.01, time + 0.2)
