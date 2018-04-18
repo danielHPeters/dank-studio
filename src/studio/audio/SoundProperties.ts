@@ -1,10 +1,12 @@
-import ISoundProperties from '../../interfaces/ISoundProperties'
+import BaseSoundProperties from './BaseSoundProperties';
 
-export default class SoundProperties implements ISoundProperties {
-  frequency: number
-  volume: number
-  constructor(frequency: number, volume: number) {
-    this.frequency = frequency
-    this.volume = volume
+/**
+ * Soundproperty for sounds generated from oscillator See {@link Sound}
+ */
+export default class SoundProperties extends BaseSoundProperties {
+  type: OscillatorType
+  constructor(frequency: number, volume: number, type: OscillatorType) {
+    super(frequency, volume)
+    this.type = type
   }
 }

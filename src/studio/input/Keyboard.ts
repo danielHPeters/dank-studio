@@ -4,6 +4,7 @@ import Snare from '../audio/Snare'
 import Kick from '../audio/Kick'
 import { ESoundType } from '../../enum/ESoundType'
 import AudioItem from '../widgets/AudioItem';
+import SoundFactory from '../../factory/SoundFactory';
 
 export enum KeyboardStyles {
   ACTIVE = 'keyActive'
@@ -20,6 +21,7 @@ export default class Keyboard {
   compressor: DynamicsCompressorNode
   keySoundMap: Map<string, ISound>
   registeredInputs: Map<string, boolean>
+  soundFactory: SoundFactory
   /**
    * Constructor.
    */
@@ -27,12 +29,10 @@ export default class Keyboard {
     try {
       this.context = new AudioContext()
       this.compressor = this.context.createDynamicsCompressor()
-      // this.gainNode = this.context.createGain()
+      this.soundFactory = new SoundFactory(this.context, this.compressor)
       this.keySoundMap = new Map<string, ISound>()
       this.registeredInputs = new Map<string, boolean>()
 
-      // this.gainNode.noiseGain.value = 1
-      // this.gainNode.connect(this.context.destination)
       this.initCompressor()
       this.registerKeyHandler()
       const audioItem = new AudioItem('test', new Sound(this.context, this.compressor, 440, 'sine'))
@@ -51,19 +51,7 @@ export default class Keyboard {
    * @param {OscillatorType} oscillatorType
    */
   registerKey (key: string, frequency: number, type: ESoundType = ESoundType.NOTE, oscillatorType: OscillatorType = 'square'): void {
-    switch (type) {
-      case ESoundType.NOTE:
-        this.keySoundMap.set(key, new Sound(this.context, this.compressor, frequency, oscillatorType))
-        break
-      case ESoundType.SNARE:
-        this.keySoundMap.set(key, new Snare(this.context, frequency, 1000, 'highpass', 'triangle'))
-        break
-      case ESoundType.KICK:
-        this.keySoundMap.set(key, new Kick(this.context, frequency))
-        break
-      case ESoundType.HITHAT:
-        break
-    }
+    this.keySoundMap.set(key, this.soundFactory.create(frequency, type, oscillatorType))
   }
 
   /**
