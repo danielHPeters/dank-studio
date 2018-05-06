@@ -11,12 +11,18 @@ import { ESoundType } from '../enum/ESoundType'
 document.addEventListener('DOMContentLoaded', () => {
   const keyBoard = new KeyBoard()
   const keyPad = new KeyPad('keyPad', keyBoard)
+  const audioSliderLabel = document.createElement('label') as HTMLLabelElement
   const audioSlider = document.createElement('input') as HTMLInputElement
+  const audioSliderId = 'volume'
+  audioSliderLabel.htmlFor = audioSliderId
+  audioSliderLabel.textContent = 'Adjust Volume'
+  audioSlider.id = audioSliderId
   audioSlider.type = 'range'
   audioSlider.addEventListener('change', () => keyBoard.masterGain.gain.value = Number(audioSlider.value))
   audioSlider.max = "1"
   audioSlider.min = "0"
   audioSlider.step = "0.1"
+  document.body.appendChild(audioSliderLabel)
   document.body.appendChild(audioSlider)
 
   keyBoard.registerKey('a', 261.63)
