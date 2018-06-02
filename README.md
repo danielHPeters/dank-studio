@@ -1,3 +1,4 @@
+[![Waffle.io - Columns and their card count](https://badge.waffle.io/danielHPeters/dank-studio.png?columns=all)](https://waffle.io/danielHPeters/dank-studio?utm_source=badge)
 # dank-studio
 Web based music studio application using web audio API.
 
