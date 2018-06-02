@@ -1,14 +1,15 @@
 /**
- * Interface ISound.
- * 
+ * Interface Sound.
+ *
  * @author Daniel Peters
  * @version 1.0
  */
-export default interface ISound {
+export default interface Sound {
   context: AudioContext
   gain: GainNode
   frequency: number
   volume: number
+
   /**
    * Initialize the sound.
    */
@@ -16,16 +17,16 @@ export default interface ISound {
 
   /**
    * Play the sound with an optional delay and loop.
-   * 
-   * @param {boolean} loop Default false (Set to true to run in loop).
-   * @param {number} delay Optional delay.
+   *
+   * @param loop Default false (Set to true to run in loop)
+   * @param delay Optional delay
    */
   play (loop?: boolean, delay?: number): void
 
   /**
    * Stop the sound.
    *
-   * @param {number} delay Optional delay
+   * @param delay Optional delay
    */
   stop (delay?: number): void
 }

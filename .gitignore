@@ -130,3 +130,14 @@ fabric.properties
 
 # Visio autosave temporary files
 *.~vsd*
+
+# Build
+dist/
+public/js/*.js
+public/js/*.map
+public/stylesheets/*.css
+public/stylesheets/*.map
+
+# VS Code settings folder
+.vscode/
+

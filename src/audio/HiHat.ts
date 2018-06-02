@@ -1,4 +1,4 @@
-import ISound from '../../interfaces/ISound'
+import Sound from './Sound'
 
 /**
  * HiHat class.
@@ -6,7 +6,7 @@ import ISound from '../../interfaces/ISound'
  * @author Daniel Peters
  * @version 1.0
  */
-export default class HiHat implements ISound {
+export default class HiHat implements Sound {
   context: AudioContext
   compressor: DynamicsCompressorNode
   gain: GainNode
@@ -14,11 +14,12 @@ export default class HiHat implements ISound {
   volume: number
   private source: AudioBufferSourceNode
   private buffer: AudioBuffer
+
   /**
-   * Conscrutor.
+   * Constructor.
    *
-   * @param {AudioContext} context
-   * @param {AudioBuffer} buffer
+   * @param context
+   * @param buffer
    */
   constructor (context: AudioContext, buffer: AudioBuffer) {
     this.context = context
@@ -37,7 +38,7 @@ export default class HiHat implements ISound {
     this.source.start(delay)
   }
 
-  stop (delay: number = 0) {
-
+  stop (delay: number = 0): void {
+    // Not implemented.
   }
 }

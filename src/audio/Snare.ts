@@ -1,4 +1,4 @@
-import ISound from '../../interfaces/ISound'
+import Sound from './Sound'
 
 /**
  * Snare sound class.
@@ -6,7 +6,7 @@ import ISound from '../../interfaces/ISound'
  * @author Daniel Peters
  * @version 1.0
  */
-export default class Snare implements ISound {
+export default class Snare implements Sound {
   context: AudioContext
   compressor: DynamicsCompressorNode
   frequency: number
@@ -19,14 +19,7 @@ export default class Snare implements ISound {
   private oscillatorType: OscillatorType
   private oscillator: OscillatorNode
   private oscillatorGain: GainNode
-  /**
-   *
-   * @param {AudioContext} context
-   * @param {number} frequency
-   * @param {number} noiseFrequency
-   * @param {string} noiseFilter
-   * @param {string} oscillatorType
-   */
+
   constructor (context: AudioContext, compressor: DynamicsCompressorNode, frequency: number, noiseFrequency: number, noiseFilter: BiquadFilterType, oscillatorType: OscillatorType) {
     this.context = context
     this.compressor = compressor
@@ -71,17 +64,13 @@ export default class Snare implements ISound {
   }
 
   play (loop: boolean = false, delay: number = 0): void {
-
+    // Not implemented.
   }
 
   stop (delay: number = 0): void {
-
+    // Not implemented.
   }
 
-  /**
-   *
-   * @returns {AudioBuffer}
-   */
   private createNoiseBuffer (): AudioBuffer {
     const bufferSize = this.context.sampleRate
     const buffer = this.context.createBuffer(1, bufferSize, this.context.sampleRate)

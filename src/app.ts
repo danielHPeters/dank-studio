@@ -1,10 +1,10 @@
 import KeyBoard from './input/Keyboard'
 import KeyPad from './widgets/KeyPad'
-import { ESoundType } from '../enum/ESoundType'
+import { SoundType } from './audio/SoundType'
 
 /**
  * Init script. Set all keys here.
- * 
+ *
  * @author Daniel Peters
  * @version 1.1
  */
@@ -19,9 +19,9 @@ document.addEventListener('DOMContentLoaded', () => {
   audioSlider.id = audioSliderId
   audioSlider.type = 'range'
   audioSlider.addEventListener('change', () => keyBoard.masterGain.gain.value = Number(audioSlider.value))
-  audioSlider.max = "1"
-  audioSlider.min = "0"
-  audioSlider.step = "0.1"
+  audioSlider.max = '1'
+  audioSlider.min = '0'
+  audioSlider.step = '0.1'
   document.body.appendChild(audioSliderLabel)
   document.body.appendChild(audioSlider)
 
@@ -33,7 +33,7 @@ document.addEventListener('DOMContentLoaded', () => {
   keyBoard.registerKey('h', 440)
   keyBoard.registerKey('j', 493.88)
   keyBoard.registerKey('k', 523.25)
-  keyBoard.registerKey('q', 150, ESoundType.KICK)
-  keyBoard.registerKey('w', 100, ESoundType.SNARE)
+  keyBoard.registerKey('q', 150, SoundType.KICK)
+  keyBoard.registerKey('w', 100, SoundType.SNARE)
   keyPad.addAllKeys()
 })

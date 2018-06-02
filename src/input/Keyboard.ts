@@ -1,10 +1,6 @@
 import Sound from '../audio/Sound'
-import ISound from '../../interfaces/ISound'
-import Snare from '../audio/Snare'
-import Kick from '../audio/Kick'
-import { ESoundType } from '../../enum/ESoundType'
-import AudioItem from '../widgets/AudioItem';
-import SoundFactory from '../../factory/SoundFactory';
+import { SoundType } from '../audio/SoundType'
+import SoundFactory from '../factory/SoundFactory'
 
 export enum KeyboardStyles {
   ACTIVE = 'keyActive'
@@ -20,9 +16,10 @@ export default class Keyboard {
   context: AudioContext
   masterGain: GainNode
   compressor: DynamicsCompressorNode
-  keySoundMap: Map<string, ISound>
+  keySoundMap: Map<string, Sound>
   registeredInputs: Map<string, boolean>
   soundFactory: SoundFactory
+
   /**
    * Constructor.
    */
@@ -32,7 +29,7 @@ export default class Keyboard {
       this.masterGain = this.context.createGain()
       this.compressor = this.context.createDynamicsCompressor()
       this.soundFactory = new SoundFactory(this.context, this.compressor)
-      this.keySoundMap = new Map<string, ISound>()
+      this.keySoundMap = new Map<string, Sound>()
       this.registeredInputs = new Map<string, boolean>()
       this.masterGain.connect(this.context.destination)
       this.initCompressor()
@@ -45,20 +42,16 @@ export default class Keyboard {
   /**
    * Register a keyboard key with a sound
    *
-   * @param {string} key
-   * @param {number} frequency
-   * @param {ESoundType} type
-   * @param {OscillatorType} oscillatorType
+   * @param key
+   * @param frequency
+   * @param type
+   * @param oscillatorType
    */
-  registerKey (key: string, frequency: number, type: ESoundType = ESoundType.NOTE, oscillatorType: OscillatorType = 'square'): void {
+  registerKey (key: string, frequency: number, type: SoundType = SoundType.OSCILLATOR, oscillatorType: OscillatorType = 'square'): void {
     this.keySoundMap.set(key, this.soundFactory.create(frequency, type, oscillatorType))
   }
 
-  /**
-   *
-   * @param {string} key
-   */
-  setDownEvent (key: string) {
+  setDownEvent (key: string): void {
     if (!this.registeredInputs.get(key) && this.keySoundMap.get(key) !== undefined) {
       document.getElementById(key).classList.add(KeyboardStyles.ACTIVE)
       this.keySoundMap.get(key).init()
@@ -67,10 +60,6 @@ export default class Keyboard {
     }
   }
 
-  /**
-   *
-   * @param {string} key
-   */
   setUpEvent (key: string): void {
     if (this.registeredInputs.get(key) && this.keySoundMap.get(key) !== undefined) {
       document.getElementById(key).classList.remove(KeyboardStyles.ACTIVE)
@@ -91,9 +80,6 @@ export default class Keyboard {
     this.compressor.connect(this.masterGain)
   }
 
-  /**
-   *
-   */
   private registerKeyHandler (): void {
     window.addEventListener('keydown', event => this.setDownEvent(event.key))
     window.addEventListener('keyup', event => this.setUpEvent(event.key))

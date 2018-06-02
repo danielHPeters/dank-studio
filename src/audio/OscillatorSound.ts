@@ -1,27 +1,27 @@
-import ISound from '../../interfaces/ISound'
+import Sound from './Sound'
 
 /**
- * Sound class
+ * Oscillator sound class
  *
  * @author Daniel Peters
  * @version 1.0
  */
-export default class Sound implements ISound {
+export default class OscillatorSound implements Sound {
   context: AudioContext
   gain: GainNode
   frequency: number
   volume: number
   oscillatorType: OscillatorType
-  private compressor: DynamicsCompressorNode
+  private readonly compressor: DynamicsCompressorNode
   private oscillator: OscillatorNode
 
   /**
    * Constructor.
    *
-   * @param {AudioContext} context
-   * @param {DynamicsCompressorNode} compressor
-   * @param {number} frequency
-   * @param {OscillatorType} oscillatorType
+   * @param context
+   * @param compressor
+   * @param frequency
+   * @param oscillatorType
    */
   constructor (context: AudioContext, compressor: DynamicsCompressorNode, frequency: number, oscillatorType: OscillatorType) {
     this.context = context
@@ -30,9 +30,6 @@ export default class Sound implements ISound {
     this.oscillatorType = oscillatorType
   }
 
-  /**
-   * Connect to audio output and play sound.
-   */
   init (): void {
     this.oscillator = this.context.createOscillator()
     this.gain = this.context.createGain()
@@ -46,12 +43,9 @@ export default class Sound implements ISound {
   }
 
   play (loop: boolean = false, delay: number = 0): void {
-
+    // Not implemented.
   }
 
-  /**
-   * Stop sound.
-   */
   stop (delay: number = 0): void {
     this.gain.gain.linearRampToValueAtTime(0, this.context.currentTime + 0.8)
     this.oscillator.stop(this.context.currentTime + 2.8)

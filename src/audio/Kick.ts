@@ -1,4 +1,4 @@
-import ISound from '../../interfaces/ISound'
+import Sound from './Sound'
 
 /**
  * Drum 'Kick'.
@@ -6,7 +6,7 @@ import ISound from '../../interfaces/ISound'
  * @author Daniel Peters
  * @version 1.0
  */
-export default class Kick implements ISound {
+export default class Kick implements Sound {
   context: AudioContext
   compressor: DynamicsCompressorNode
   oscillator: OscillatorNode
@@ -14,21 +14,12 @@ export default class Kick implements ISound {
   frequency: number
   volume: number
 
-  /**
-   * Constructor.
-   *
-   * @param {AudioContext} context
-   * @param {number} frequency
-   */
   constructor (context: AudioContext, compressor: DynamicsCompressorNode, frequency: number) {
     this.context = context
     this.compressor = compressor
     this.frequency = frequency
   }
 
-  /**
-   *
-   */
   init (): void {
     const delay = this.context.currentTime
     this.oscillator = this.context.createOscillator()
@@ -50,10 +41,10 @@ export default class Kick implements ISound {
   }
 
   play (loop: boolean = false, delay: number = 0): void {
-
+    // Not implemented.
   }
 
   stop (delay: number = 0): void {
-
+    // Not implemented.
   }
 }

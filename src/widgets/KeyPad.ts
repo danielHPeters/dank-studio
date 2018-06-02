@@ -1,24 +1,26 @@
+import Keyboard from '../input/Keyboard'
+
+export enum Styles {
+  KEY = 'key', DESCRIPTION = 'keyDescription'
+}
+
 /**
- * Keypad Widget class.
+ * Keypad widget class.
  *
  * @author Daniel Peters
  * @version 1.0
  */
-import Keyboard from '../input/Keyboard'
-
 export default class KeyPad {
-  private id: string
   private element: HTMLElement
   private keyBoard: Keyboard
   /**
    * Constructor.
    *
-   * @param {string} id
-   * @param {Keyboard} keyBoard
+   * @param id
+   * @param keyBoard
    */
   constructor (id: string, keyBoard: Keyboard) {
-    this.id = id
-    this.element = document.getElementById(this.id)
+    this.element = document.getElementById(id)
     this.keyBoard = keyBoard
   }
 
@@ -32,8 +34,8 @@ export default class KeyPad {
   /**
    * Add a key element.
    *
-   * @param {string} id
-   * @param {string} text
+   * @param id
+   * @param text
    */
   private addKey (id: string, text: string): void {
     const newKey = document.createElement('li')
@@ -41,12 +43,13 @@ export default class KeyPad {
     const textNode = document.createTextNode(id)
     const textNode2 = document.createTextNode(text)
     const lineBreak = document.createElement('br')
+
     span.appendChild(textNode)
     span.appendChild(lineBreak)
     span.appendChild(textNode2)
-    span.classList.add('keyDescription')
+    span.classList.add(Styles.DESCRIPTION)
     newKey.appendChild(span)
-    newKey.classList.add('key')
+    newKey.classList.add(Styles.KEY)
     newKey.setAttribute('id', id)
     newKey.addEventListener('mouseenter', event => this.keyBoard.setDownEvent(id))
     newKey.addEventListener('touchstart', event => this.keyBoard.setDownEvent(id))
