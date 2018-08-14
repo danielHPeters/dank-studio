@@ -12,8 +12,8 @@ const tsLint = require('gulp-tslint')
 // Define sources, destination and config file locations here
 const configuration = {
   ts: {
-    source: 'src/**/*ts',
-    tests: 'test/**/*ts'
+    source: 'src/**/*.ts',
+    tests: 'test/**/*.ts'
   },
   js: {
     coverage: 'coverage',
