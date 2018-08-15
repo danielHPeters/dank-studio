@@ -63,14 +63,26 @@ export default class Snare implements Sound {
     this.noise.stop(time + 0.2)
   }
 
+  /**
+   *
+   * @param loop
+   * @param delay
+   */
   play (loop: boolean = false, delay: number = 0): void {
     // Not implemented.
   }
 
+  /**
+   *
+   * @param delay
+   */
   stop (delay: number = 0): void {
     // Not implemented.
   }
 
+  /**
+   *
+   */
   private createNoiseBuffer (): AudioBuffer {
     const bufferSize = this.context.sampleRate
     const buffer = this.context.createBuffer(1, bufferSize, this.context.sampleRate)
