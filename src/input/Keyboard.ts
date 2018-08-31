@@ -9,7 +9,7 @@ export enum KeyboardStyles {
 /**
  * Keyboard class.
  *
- * @author Daniel Peters
+ * @author Daniel Peters <daniel.peters.ch@gmail.com>
  * @version 1.0
  */
 export default class Keyboard {
@@ -20,9 +20,6 @@ export default class Keyboard {
   registeredInputs: Map<string, boolean>
   soundFactory: SoundFactory
 
-  /**
-   * Constructor.
-   */
   constructor () {
     try {
       this.context = new AudioContext()

@@ -3,7 +3,7 @@ import Sound from './Sound'
 /**
  * Oscillator sound class
  *
- * @author Daniel Peters
+ * @author Daniel Peters <daniel.peters.ch@gmail.com>
  * @version 1.0
  */
 export default class OscillatorSound implements Sound {
@@ -15,14 +15,6 @@ export default class OscillatorSound implements Sound {
   private readonly compressor: DynamicsCompressorNode
   private oscillator: OscillatorNode
 
-  /**
-   * Constructor.
-   *
-   * @param context
-   * @param compressor
-   * @param frequency
-   * @param oscillatorType
-   */
   constructor (context: AudioContext, compressor: DynamicsCompressorNode, frequency: number, oscillatorType: OscillatorType) {
     this.context = context
     this.compressor = compressor

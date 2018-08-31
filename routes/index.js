@@ -1,6 +1,6 @@
 const router = require('express').Router()
 
 /* GET home page. */
-router.get('/', (req, res, next) => res.render('index', {title: 'DankStudio'}))
+router.get('/', (req, res, next) => res.render('index', { title: 'DankStudio' }))
 
 module.exports = router

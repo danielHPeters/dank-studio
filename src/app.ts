@@ -5,7 +5,7 @@ import { SoundType } from './audio/SoundType'
 /**
  * Init script. Set all keys here.
  *
- * @author Daniel Peters
+ * @author Daniel Peters <daniel.peters.ch@gmail.com>
  * @version 1.1
  */
 document.addEventListener('DOMContentLoaded', () => {

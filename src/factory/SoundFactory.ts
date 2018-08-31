@@ -5,9 +5,9 @@ import Sound from '../audio/Sound'
 import Kick from '../audio/Kick'
 
 /**
- * Factory for ISound object.
+ * Factory for Sound object.
  *
- * @author Daniel Peters
+ * @author Daniel Peters <daniel.peters.ch@gmail.com>
  * @version 1.0
  */
 export default class SoundFactory {
