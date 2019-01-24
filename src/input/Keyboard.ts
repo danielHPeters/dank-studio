@@ -9,7 +9,7 @@ export enum KeyboardStyles {
 /**
  * Keyboard class.
  *
- * @author Daniel Peters <daniel.peters.ch@gmail.com>
+ * @author Daniel Peters
  * @version 1.0
  */
 export default class Keyboard {
@@ -44,7 +44,12 @@ export default class Keyboard {
    * @param type
    * @param oscillatorType
    */
-  registerKey (key: string, frequency: number, type: SoundType = SoundType.OSCILLATOR, oscillatorType: OscillatorType = 'square'): void {
+  registerKey (
+    key: string,
+    frequency: number,
+    type: SoundType = SoundType.OSCILLATOR,
+    oscillatorType: OscillatorType = 'square'
+  ): void {
     this.keySoundMap.set(key, this.soundFactory.create(frequency, type, oscillatorType))
   }
 

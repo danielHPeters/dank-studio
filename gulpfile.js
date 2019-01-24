@@ -44,7 +44,6 @@ gulp.task('build:server', () => {
     .js
     .pipe(gulp.dest('dist'))
 })
-
 /**
  * Lint all typescript source files.
  * The standard used is standard.js as defined in the 'tslint.json' file.

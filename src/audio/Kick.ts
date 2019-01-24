@@ -3,7 +3,7 @@ import Sound from './Sound'
 /**
  * Drum 'Kick'.
  *
- * @author Daniel Peters <daniel.peters.ch@gmail.com>
+ * @author Daniel Peters
  * @version 1.0
  */
 export default class Kick implements Sound {

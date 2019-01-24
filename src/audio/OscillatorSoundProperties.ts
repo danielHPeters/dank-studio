@@ -3,7 +3,7 @@ import BaseSoundProperties from './BaseSoundProperties'
 /**
  * Sound property for sounds generated from oscillator.
  *
- * @author Daniel Peters <daniel.peters.ch@gmail.com>
+ * @author Daniel Peters
  * @version 1.0
  */
 export default class OscillatorSoundProperties extends BaseSoundProperties {

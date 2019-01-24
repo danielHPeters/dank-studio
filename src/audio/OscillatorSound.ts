@@ -3,7 +3,7 @@ import Sound from './Sound'
 /**
  * Oscillator sound class
  *
- * @author Daniel Peters <daniel.peters.ch@gmail.com>
+ * @author Daniel Peters
  * @version 1.0
  */
 export default class OscillatorSound implements Sound {

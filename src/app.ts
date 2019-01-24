@@ -1,29 +1,20 @@
 import KeyBoard from './input/Keyboard'
 import KeyPad from './widgets/KeyPad'
 import { SoundType } from './audio/SoundType'
+import AudioSlider from './widgets/AudioSlider'
 
 /**
  * Init script. Set all keys here.
  *
- * @author Daniel Peters <daniel.peters.ch@gmail.com>
+ * @author Daniel Peters
  * @version 1.1
  */
 document.addEventListener('DOMContentLoaded', () => {
   const keyBoard = new KeyBoard()
   const keyPad = new KeyPad('keyPad', keyBoard)
-  const audioSliderLabel = document.createElement('label') as HTMLLabelElement
-  const audioSlider = document.createElement('input') as HTMLInputElement
-  const audioSliderId = 'volume'
-  audioSliderLabel.htmlFor = audioSliderId
-  audioSliderLabel.textContent = 'Adjust Volume'
-  audioSlider.id = audioSliderId
-  audioSlider.type = 'range'
-  audioSlider.addEventListener('change', () => keyBoard.masterGain.gain.value = Number(audioSlider.value))
-  audioSlider.max = '1'
-  audioSlider.min = '0'
-  audioSlider.step = '0.1'
-  document.body.appendChild(audioSliderLabel)
-  document.body.appendChild(audioSlider)
+  const volumeSlider = new AudioSlider('volume', 'Adjust Volume', keyBoard.masterGain)
+
+  document.body.appendChild(volumeSlider.render())
 
   keyBoard.registerKey('a', 261.63)
   keyBoard.registerKey('s', 293.66)

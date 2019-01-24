@@ -7,7 +7,7 @@ export enum Styles {
 /**
  * Keypad widget class.
  *
- * @author Daniel Peters <daniel.peters.ch@gmail.com>
+ * @author Daniel Peters
  * @version 1.0
  */
 export default class KeyPad {
@@ -51,10 +51,10 @@ export default class KeyPad {
     newKey.appendChild(span)
     newKey.classList.add(Styles.KEY)
     newKey.setAttribute('id', id)
-    newKey.addEventListener('mouseenter', event => this.keyBoard.setDownEvent(id))
-    newKey.addEventListener('touchstart', event => this.keyBoard.setDownEvent(id))
-    newKey.addEventListener('mouseleave', event => this.keyBoard.setUpEvent(id))
-    newKey.addEventListener('touchend', event => this.keyBoard.setUpEvent(id))
+    newKey.addEventListener('mouseenter', () => this.keyBoard.setDownEvent(id))
+    newKey.addEventListener('touchstart', () => this.keyBoard.setDownEvent(id))
+    newKey.addEventListener('mouseleave', () => this.keyBoard.setUpEvent(id))
+    newKey.addEventListener('touchend', () => this.keyBoard.setUpEvent(id))
     this.element.appendChild(newKey)
   }
 }
