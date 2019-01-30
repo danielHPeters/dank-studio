@@ -6,7 +6,7 @@
  */
 export default class AudioSlider {
   private id: string
-  private context: GainNode
+  // private context: GainNode
   private readonly type: string = 'range'
   private container: HTMLElement
   private label: HTMLLabelElement
@@ -17,7 +17,7 @@ export default class AudioSlider {
 
   constructor (id: string, labelText: string, context: GainNode) {
     this.id = id
-    this.context = context
+    // this.context = context
     this.container = document.createElement('div')
     this.label = document.createElement('label') as HTMLLabelElement
     this.input = document.createElement('input') as HTMLInputElement

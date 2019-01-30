@@ -20,7 +20,7 @@ export default class KeyPad {
    * @param keyBoard
    */
   constructor (id: string, keyBoard: Keyboard) {
-    this.element = document.getElementById(id)
+    this.element = document.getElementById(id) || document.createElement('div')
     this.keyBoard = keyBoard
   }
 

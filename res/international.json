@@ -1,6 +1,6 @@
 {
-    "welcome-text": "Welcome to $app$.",
-    "404-text": "404 Page $page$ not found!",
-    "no-webauio-api-support": "This browser does not support Web Audio API.",
-    "not-implemented-text": "Not Implemented!"
+  "welcome-text": "Welcome to $app$.",
+  "404-text": "404 Page $page$ not found!",
+  "no-webauio-api-support": "This browser does not support Web Audio API.",
+  "not-implemented-text": "Not Implemented!"
 }

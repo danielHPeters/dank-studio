@@ -21,12 +21,13 @@ export default class Keyboard {
   soundFactory: SoundFactory
 
   constructor () {
+    this.keySoundMap = new Map<string, Sound>()
+
     try {
       this.context = new AudioContext()
       this.masterGain = this.context.createGain()
       this.compressor = this.context.createDynamicsCompressor()
       this.soundFactory = new SoundFactory(this.context, this.compressor)
-      this.keySoundMap = new Map<string, Sound>()
       this.registeredInputs = new Map<string, boolean>()
       this.masterGain.connect(this.context.destination)
       this.initCompressor()
@@ -54,19 +55,29 @@ export default class Keyboard {
   }
 
   setDownEvent (key: string): void {
-    if (!this.registeredInputs.get(key) && this.keySoundMap.get(key) !== undefined) {
-      document.getElementById(key).classList.add(KeyboardStyles.ACTIVE)
-      this.keySoundMap.get(key).init()
-      this.keySoundMap.get(key).play()
-      this.registeredInputs.set(key, true)
+    if (this.context) {
+      const element = document.getElementById(key)
+      const sound = this.keySoundMap.get(key)
+
+      if (!this.registeredInputs.get(key) && sound && element) {
+        element.classList.add(KeyboardStyles.ACTIVE)
+        sound.init()
+        sound.play()
+        this.registeredInputs.set(key, true)
+      }
     }
   }
 
   setUpEvent (key: string): void {
-    if (this.registeredInputs.get(key) && this.keySoundMap.get(key) !== undefined) {
-      document.getElementById(key).classList.remove(KeyboardStyles.ACTIVE)
-      this.keySoundMap.get(key).stop()
-      this.registeredInputs.set(key, false)
+    if (this.context) {
+      const element = document.getElementById(key)
+      const sound = this.keySoundMap.get(key)
+
+      if (this.registeredInputs.get(key) && sound && element) {
+        element.classList.remove(KeyboardStyles.ACTIVE)
+        sound.stop()
+        this.registeredInputs.set(key, false)
+      }
     }
   }
 
