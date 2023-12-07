@@ -12,7 +12,6 @@
     "importHelpers": true,
     "sourceMap": true,
     "strictNullChecks": true,
-    "suppressImplicitAnyIndexErrors": true,
     "experimentalDecorators": true,
     "noUnusedLocals": true,
     "lib": [

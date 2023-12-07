@@ -1,5 +1,3 @@
-import { Styles } from '../widgets/BoxAudioWidget'
-
 /**
  * Sound properties base class.
  *
@@ -13,17 +11,5 @@ export default class BaseSoundProperties {
   constructor (frequency: number, volume: number) {
     this.frequency = frequency
     this.volume = volume
-  }
-
-  mapToElement (element: HTMLElement): void {
-    Object.keys(this).forEach(prop => {
-      const propElement = document.createElement('input') as HTMLInputElement
-
-      propElement.type = isNaN(Number(this[prop])) ? 'text' : 'number'
-      propElement.classList.add(Styles.AUDIO_ITEM_PROP)
-      propElement.value = this[prop]
-      propElement.addEventListener('change', () => this[prop] = propElement.value)
-      element.appendChild(propElement)
-    })
   }
 }

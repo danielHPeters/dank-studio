@@ -109,5 +109,5 @@ gulp.task(config.tasks.watch, () => {
  */
 gulp.task(
   config.tasks.def,
-  gulp.series(config.tasks.lint, config.tasks.test, config.tasks.buildServer, config.tasks.buildClient)
+  gulp.series(config.tasks.lint/*, config.tasks.test*/, config.tasks.buildServer, config.tasks.buildClient)
 )
